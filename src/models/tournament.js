@@ -12,11 +12,11 @@ module.exports = (sequelize) => {
 				type: DataTypes.STRING(50),
 				allowNull: false,
 			},
-			place: {
+			location: {
 				type: DataTypes.STRING(100),
 				allowNull: true,
 			},
-			minPlayers: {
+			PlayersMin: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				defaultValue: 2,
@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
 					max: 32,
 				},
 			},
-			maxPlayers: {
+			PlayersMax: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				defaultValue: 2,
@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
 					max: 32,
 				},
 			},
-			minElos: {
+			EloMin: {
 				type: DataTypes.FLOAT(4),
 				allowNull: true,
 				defaultValue: 0,
@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
 					max: 3000,
 				},
 			},
-			maxElos: {
+			EloMax: {
 				type: DataTypes.FLOAT(4),
 				allowNull: true,
 				defaultValue: 0,
@@ -53,21 +53,19 @@ module.exports = (sequelize) => {
 				},
 			},
 			category: {
-				type: DataTypes.STRING(100),
-				allowNull: false,
-				validate: {
-					isIn: [['junior', 'senior', 'veteran']],
-				},
+				type: DataTypes.ENUM({
+					values:['junior', 'senior', 'veteran']
+				}),
+				allowNull: true,
 			},
 			statut: {
-				type: DataTypes.STRING(100),
+				type: DataTypes.ENUM({
+					values:['WaitingForPlayers', 'InProgress', 'Closed ']
+				}),
 				allowNull: false,
-				defaultValue: 'en attente de joueurs',
-				validate: {
-					isIn: [['en attente de joueurs', 'en cours', 'terminé']],
-				},
+				defaultValue: 'WaitingForPlayers',
 			},
-			round: {
+			currentRound: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				defaultValue: 0,
@@ -77,7 +75,11 @@ module.exports = (sequelize) => {
 				allowNull: false,
 				defaultValue: false,
 			},
-			registrationDate: {
+			canRegister: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+			},
+			registrationAt: {
 				type: DataTypes.DATE,
 				allowNull: false,
 			},

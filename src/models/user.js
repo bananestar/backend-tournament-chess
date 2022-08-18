@@ -5,21 +5,21 @@ const { Sequelize, DataTypes } = require('sequelize');
  * @param {Sequelize} sequelize
  */
 module.exports = (sequelize) => {
-	const Player = sequelize.define(
-		'player',
+	const User = sequelize.define(
+		'user',
 		{
 			pseudo: {
 				type: DataTypes.STRING(50),
 				allowNull: false,
 				unique: {
-					name: 'UK_Player_Pseudo',
+					name: 'UK_User_Pseudo',
 				},
 			},
 			email: {
 				type: DataTypes.STRING(255),
 				allowNull: false,
-				validate:{
-					isEmail: true
+				validate: {
+					isEmail: true,
 				},
 				unique: {
 					name: 'UK_User_Email',
@@ -32,24 +32,25 @@ module.exports = (sequelize) => {
 			birthDate: {
 				type: DataTypes.DATE,
 				allowNull: false,
-				validate:{
+				validate: {
 					isDate: true,
 				},
 			},
 			gender: {
-				type: DataTypes.CHAR(1),
+				type: DataTypes.ENUM({
+					values: ['FEMALE', 'MALE', 'OTHER'],
+				}),
 				allowNull: false,
-				defaultValue: 'o',
+				defaultValue: 'OTHER',
 			},
 			elo: {
-				type: DataTypes.FLOAT(4),
+				type: DataTypes.INTEGER,
 				allowNull: false,
 				defaultValue: 1200,
 			},
-			tournament:{
+			tournament: {
 				type: DataTypes.INTEGER,
-				allowNull:false,
-				defaultValue:0
+				allowNull: true,
 			},
 			isAdmin: {
 				type: DataTypes.BOOLEAN,
@@ -61,5 +62,5 @@ module.exports = (sequelize) => {
 			timestamps: true,
 		}
 	);
-	return Player;
+	return User;
 };

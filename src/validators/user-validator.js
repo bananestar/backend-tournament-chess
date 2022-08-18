@@ -1,6 +1,6 @@
 const yup = require('yup');
 
-const playerValidator = yup.object().shape({
+const userValidator = yup.object().shape({
 	pseudo: yup.string().trim().required().max(50),
 	email: yup.string().email().trim().required().max(255),
 	password: yup.string().trim().required().max(60),
@@ -9,4 +9,4 @@ const playerValidator = yup.object().shape({
 	elo: yup.number().positive().integer().max(3000).min(0),
 });
 
-module.exports = { playerValidator };
+module.exports = { userValidator };

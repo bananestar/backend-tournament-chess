@@ -6,46 +6,46 @@ const {
 	SuccessArrayResponse,
 } = require('../response-schemas/success-schema');
 
-const tournamentController = {
+const matchController = {
+
 	/**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	getAll: async (req, res) => {
-		const data = await db.Tournament.findAndCountAll();
+        const data = await db.Match.findAndCountAll();
 		return res.status(200).json(new SuccessArrayResponse(data.rows, data.count));
-	},
+    },
 
-	/**
+    /**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	get: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const tournament = await db.Tournament.findOne({
+		const match = await db.Match.findOne({
 			where: { id },
 		});
-		if (!tournament) {
-			return res.status(404).json(new NotFoundErrorResponse('Tournament not found'));
+		if (!match) {
+			return res.status(404).json(new NotFoundErrorResponse('Match not found'));
 		}
-		return res.status(200).json(new SuccessObjectResponse(tournament));
+		return res.status(200).json(new SuccessObjectResponse(match));
 	},
 
-	
-	/**
+    /**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	 add: async (req, res) => {
 		const data = req.validatedData;
-		const newTournament = await db.Tournament.create(data);
-		return res.status(201).json(new SuccessObjectResponse(newTournament, 201));
+		const newMatch = await db.Match.create(data);
+		return res.status(201).json(new SuccessObjectResponse(newMatch, 201));
 	},
 
-	/**
+    /**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
@@ -54,34 +54,33 @@ const tournamentController = {
 		const id = parseInt(req.params.id);
 		const data = req.validatedData;
 
-		const updatedTournament = await db.Tournament.update(data, {
+		const updatedMatch = await db.Match.update(data, {
 			where: { id },
 			returning: true,
 		});
 
-		if (!updatedTournament[1]) {
+		if (!updatedMatch[1]) {
 			return res.status(400).json(new ErrorResponse('BAD REQUEST'));
 		}
 
-		const updateValue = await db.Tournament.findOne({ where: { id } });
+		const updateValue = await db.Match.findOne({ where: { id } });
 		return res.status(200).json(new SuccessObjectResponse(updateValue));
 	},
 
-	/**
+    /**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	delete: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const nbRow = await db.Tournament.destroy({
+		const nbRow = await db.Match.destroy({
 			where: { id },
 		});
 		if (nbRow !== 1) {
-			return res.status(404).json(new NotFoundErrorResponse('Tournament not found'));
+			return res.status(404).json(new NotFoundErrorResponse('Match not found'));
 		}
 		return res.sendStatus(204);
 	},
 };
-
-module.exports = tournamentController
+module.exports = matchController;

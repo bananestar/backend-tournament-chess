@@ -1,20 +1,20 @@
 const { Request, Response } = require('express');
 const db = require('../models');
-
+const bcrypt = require('bcrypt');
 const { ErrorResponse, NotFoundErrorResponse } = require('../response-schemas/error-schema');
 const {
 	SuccessObjectResponse,
 	SuccessArrayResponse,
 } = require('../response-schemas/success-schema');
 
-const playerController = {
+const userController = {
 	/**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	getAll: async (req, res) => {
-		const data = await db.Player.findAndCountAll();
+		const data = await db.User.findAndCountAll();
 		return res.status(200).json(new SuccessArrayResponse(data.rows, data.count));
 	},
 
@@ -25,24 +25,13 @@ const playerController = {
 	 */
 	get: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const player = await db.Player.findOne({
+		const user = await db.User.findOne({
 			where: { id },
 		});
-		if (!player) {
-			return res.status(404).json(new NotFoundErrorResponse('Player not found'));
+		if (!user) {
+			return res.status(404).json(new NotFoundErrorResponse('User not found'));
 		}
-		return res.status(200).json(new SuccessObjectResponse(player));
-	},
-
-	/**
-	 *
-	 * @param {Request} req
-	 * @param {Response} res
-	 */
-	add: async (req, res) => {
-		const data = req.validatedData;
-		const newPlayer = await db.Player.create(data);
-		return res.status(201).json(new SuccessObjectResponse(newPlayer, 201));
+		return res.status(200).json(new SuccessObjectResponse(user));
 	},
 
 	/**
@@ -52,19 +41,34 @@ const playerController = {
 	 */
 	update: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const data = req.validatedData;
+		const dataTemp = req.validatedData;
+		const hashedPassword = await bcrypt.hash(dataTemp.password, 10);
+		const data = {
+			pseudo: dataTemp.pseudo,
+			email: dataTemp.email,
+			password: hashedPassword,
+			birthDate: dataTemp.birthDate,
+			gender: dataTemp.gender
+		};
 
-		const updatedPlayer = await db.Player.update(data, {
+		const updatedUser = await db.User.update(data, {
 			where: { id },
 			returning: true,
 		});
 
-		if (!updatedPlayer[1]) {
+		if (!updatedUser[1]) {
 			return res.status(400).json(new ErrorResponse('BAD REQUEST'));
 		}
 
-		const updateValue = await db.Player.findOne({ where: { id } });
-		return res.status(200).json(new SuccessObjectResponse(updateValue));
+		const token = await generateJWT({
+			id: data.id,
+			pseudo: data.pseudo,
+			isAdmin: data.isAdmin,
+			birthDate: data.birthDate,
+			gender: data.gender
+		  })
+
+		return res.status(200).json(new SuccessObjectResponse(token));
 	},
 
 	/**
@@ -74,14 +78,14 @@ const playerController = {
 	 */
 	delete: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const nbRow = await db.Player.destroy({
+		const nbRow = await db.User.destroy({
 			where: { id },
 		});
 		if (nbRow !== 1) {
-			return res.status(404).json(new NotFoundErrorResponse('Player not found'));
+			return res.status(404).json(new NotFoundErrorResponse('User not found'));
 		}
 		return res.sendStatus(204);
 	},
 };
 
-module.exports = playerController;
+module.exports = userController;

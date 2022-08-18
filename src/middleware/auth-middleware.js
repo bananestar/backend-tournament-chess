@@ -20,7 +20,7 @@ const authJWT = (options = { adminRight: false }) => {
 		}
 
 		if (options.adminRight) {
-			const admin = await db.Player.findOne({
+			const admin = await db.User.findOne({
 				where: {
 					[Op.and]: [{ id: tokenData.id }, { isAdmin: true }],
 				},
@@ -31,7 +31,7 @@ const authJWT = (options = { adminRight: false }) => {
 			}
 		}
 
-		req.player = tokenData;
+		req.user = tokenData;
 
 		next();
 	};

@@ -6,9 +6,6 @@ const { Op } = require("sequelize");
 const { ErrorResponse } = require("../response-schemas/error-schema");
 const { generateJWT } = require("../utils/jwt-utils");
 const authController = {
-
-
-  
   
   /**
    *
@@ -18,7 +15,7 @@ const authController = {
   register: async (req, res) => {
     const { pseudo, email, birthDate, gender} = req.body;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = await db.Player.create({
+    const user = await db.User.create({
       pseudo,
       email,
       password: hashedPassword,
@@ -42,7 +39,7 @@ const authController = {
    */
   login: async (req, res) => {
     const { identifier, password } = req.body;
-    const user = await db.Player.findOne({
+    const user = await db.User.findOne({
       where: {
         [Op.or]: [
           {
