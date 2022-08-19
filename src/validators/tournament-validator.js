@@ -5,36 +5,36 @@ const tournamentValidator = yup.object().shape({
 	location: yup.string().trim().required().max(255),
 	PlayersMin: yup
 		.number()
-		.require()
-		.when('PlayersMax', (PlayersMax, schema) => {
-			return PlayersMax ? schema.max(PlayersMax) : schema.max(32);
-		}),
+		.min(2)
+		.max(32)
+		.required()
+		,
 	PlayersMax: yup
 		.number()
 		.max(32)
-		.require()
-		.when('PlayersMin', (PlayersMin, schema) => {
-			return PlayersMin ? schema.min(PlayersMin) : schema.min(2);
-		}),
+		.required()
+		.moreThan(yup.ref('playersMin'), 'Max must be higher than player min')
+		,
 	EloMin: yup
 		.number()
-		.require()
-		.when('EloMax', (EloMax, schema) => {
-			return EloMax ? schema.max(EloMax) : schema.max(3000);
-		}),
-	EloMax: yup
-		.number(EloMin)
+		.min(0)
 		.max(3000)
-		.require()
-		.when('EloMin', (EloMin, schema) => {
-			return EloMin ? schema.min(EloMin) : schema.min(0);
-		}),
+		.required()
+		,
+	EloMax: yup
+		.number()
+		.max(3000)
+		.required()
+		.moreThan(yup.ref('EloMin'), 'Max must be higher than player min')
+		,
 	category: yup.string().trim().required().max(50),
 	statut: yup.string().trim().required().max(50),
 	currentRound: yup.number().min(0).positive().integer().required(),
 	womenOnly: yup.boolean().required(),
 	canRegister: yup.boolean().required(),
 	registrationAt: yup.date().required(),
+	createdAt:yup.date(),
+	updatedAt:yup.date()
 });
 
 module.exports = { tournamentValidator };

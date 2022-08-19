@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('express-async-errors');
+const {seedUser} = require('./utils/seed-utils')
 const express = require('express');
 const cors = require('cors');
 
@@ -11,7 +13,7 @@ db.sequelize
 	.authenticate()
 	.then(() => console.log('Connection DB => ok'))
 	.catch((errors) => console.log('Connection DB => NOT OK!!', errors));
-
+// db.sequelize.sync({alter:true,force:true})
 // db.sequelize.sync();
 
 app.use(cors());
@@ -23,3 +25,6 @@ app.use('/api', router);
 app.listen(PORT, () => {
 	console.warn(`Listening => ${URL}${PORT}`);
 });
+
+
+// seedUser()

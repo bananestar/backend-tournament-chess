@@ -1,7 +1,7 @@
 const matchController = require('../controllers/match-controller');
-const authJWT = require('../middlewares/auth-middleware');
+const authJWT = require('../middleware/auth-middleware');
 const bodyValidation = require('../middleware/body-validation-middleware');
-const { matchValidator } = require('../validators/');
+const { matchValidator } = require('../validators/match-validator');
 
 const matchRouter = require('express').Router();
 

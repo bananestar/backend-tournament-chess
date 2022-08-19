@@ -1,6 +1,7 @@
 const { Request, Response } = require('express');
 const db = require('../models');
 const bcrypt = require('bcrypt');
+const { generateJWT } = require('../utils/jwt-utils');
 const { ErrorResponse, NotFoundErrorResponse } = require('../response-schemas/error-schema');
 const {
 	SuccessObjectResponse,
@@ -48,7 +49,8 @@ const userController = {
 			email: dataTemp.email,
 			password: hashedPassword,
 			birthDate: dataTemp.birthDate,
-			gender: dataTemp.gender
+			gender: dataTemp.gender,
+			updatedAt: new Date(),
 		};
 
 		const updatedUser = await db.User.update(data, {
@@ -65,8 +67,9 @@ const userController = {
 			pseudo: data.pseudo,
 			isAdmin: data.isAdmin,
 			birthDate: data.birthDate,
-			gender: data.gender
-		  })
+			gender: data.gender,
+			updatedAt: data.updatedAt,
+		});
 
 		return res.status(200).json(new SuccessObjectResponse(token));
 	},

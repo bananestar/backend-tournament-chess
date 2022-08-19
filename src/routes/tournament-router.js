@@ -1,5 +1,5 @@
 const tournamentController = require('../controllers/tournament-controller');
-const authJWT = require('../middlewares/auth-middleware');
+const authJWT = require('../middleware/auth-middleware');
 const bodyValidation = require('../middleware/body-validation-middleware');
 const { tournamentValidator } = require('../validators/tournament-validator');
 
