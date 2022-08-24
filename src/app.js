@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
-const {seedUser} = require('./utils/seed-utils')
+
+const {seedUser, seedTournament, seedMatch, seedDB} = require('./utils/seed-utils')
 const express = require('express');
 const cors = require('cors');
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 const router = require('./routes');
+
 app.use('/api', router);
 
 app.listen(PORT, () => {
@@ -27,4 +29,11 @@ app.listen(PORT, () => {
 });
 
 
-// seedUser()
+// seedUser(20)
+// seedTournament(20)
+// seedMatch(1)
+// seedDB()
+
+
+// const {SendNewUser} = require('./mails/sendEmail');
+// SendNewUser('s.vanderlinden13@gmail.com','Bananestar')

@@ -6,14 +6,14 @@ const {
 	SuccessArrayResponse,
 } = require('../response-schemas/success-schema');
 
-const matchController = {
+const registrationController = {
 	/**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
 	 */
 	getAll: async (req, res) => {
-		const data = await db.Match.findAndCountAll();
+		const data = await db.Registration.findAndCountAll();
 		return res.status(200).json(new SuccessArrayResponse(data.rows, data.count));
 	},
 
@@ -24,22 +24,32 @@ const matchController = {
 	 */
 	get: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const match = await db.Match.findOne({
+		const match = await db.Registration.findOne({
 			where: { id },
 		});
 		if (!match) {
-			return res.status(404).json(new NotFoundErrorResponse('Match not found'));
+			return res.status(404).json(new NotFoundErrorResponse('Registration not found'));
 		}
 		return res.status(200).json(new SuccessObjectResponse(match));
 	},
 
 	getbyTournament: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const match = await db.Match.findAndCountAll({
+		const match = await db.Registration.findAndCountAll({
 			where: { tournamentId: id },
 		});
 		if (!match) {
-			return res.status(404).json(new NotFoundErrorResponse('Match not found'));
+			return res.status(404).json(new NotFoundErrorResponse('Registration not found'));
+		}
+		return res.status(200).json(new SuccessArrayResponse(match.rows, match.count));
+	},
+    getbyUser: async (req, res) => {
+		const id = parseInt(req.params.id);
+		const match = await db.Registration.findAndCountAll({
+			where: { userId: id },
+		});
+		if (!match) {
+			return res.status(404).json(new NotFoundErrorResponse('Registration not found'));
 		}
 		return res.status(200).json(new SuccessArrayResponse(match.rows, match.count));
 	},
@@ -51,7 +61,7 @@ const matchController = {
 	 */
 	add: async (req, res) => {
 		const data = req.validatedData;
-		const newMatch = await db.Match.create(data);
+		const newMatch = await db.Registration.create(data);
 		return res.status(201).json(new SuccessObjectResponse(newMatch, 201));
 	},
 
@@ -64,7 +74,7 @@ const matchController = {
 		const id = parseInt(req.params.id);
 		const data = req.validatedData;
 
-		const updatedMatch = await db.Match.update(data, {
+		const updatedMatch = await db.Registration.update(data, {
 			where: { id },
 			returning: true,
 		});
@@ -84,7 +94,7 @@ const matchController = {
 	 */
 	delete: async (req, res) => {
 		const id = parseInt(req.params.id);
-		const nbRow = await db.Match.destroy({
+		const nbRow = await db.Registration.destroy({
 			where: { id },
 		});
 		if (nbRow !== 1) {
@@ -93,4 +103,4 @@ const matchController = {
 		return res.sendStatus(204);
 	},
 };
-module.exports = matchController;
+module.exports = registrationController;

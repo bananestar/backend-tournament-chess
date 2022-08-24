@@ -1,37 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const Tournament = require('./tournament');
-const User = require('./user');
 
 /**
  *
  * @param {Sequelize} sequelize
  */
 module.exports = (sequelize) => {
-	const MatchResult = sequelize.define('matchResult', {
-		// tournamentId: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-        //     references:{
-        //         model:Tournament,
-        //         key:'id'
-        //     }
-		// },
-		// playerWhiteId: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-        //     references:{
-        //         model:User,
-        //         key:'id'
-        //     }
-		// },
-		// playerBlackId: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-        //     references:{
-        //         model:User,
-        //         key:'id'
-        //     }
-		// },
+	const Match = sequelize.define('match', {
 		result: {
 			type: DataTypes.ENUM({
 				values: ['NotPlayed', 'WhiteWin', 'BlackWin', 'Draw'],
@@ -42,5 +16,5 @@ module.exports = (sequelize) => {
 	});
 
 
-    return MatchResult
+    return Match
 };

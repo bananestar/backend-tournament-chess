@@ -2,7 +2,8 @@ const matchRouter = require('./match-router')
 const tournamentRouter = require('./tournament-router')
 const userRouter = require('./user-router')
 const authRouter = require("./auth-router");
-const seedRouter = require('./seed-router')
+const seedRouter = require('./seed-router');
+const registrationRouter = require('./registration-router');
 
 
 const router = require('express').Router();
@@ -11,6 +12,7 @@ const router = require('express').Router();
 router.use("/auth", authRouter);
 router.use('/match',matchRouter)
 router.use('/tournament',tournamentRouter)
+router.use('/registration',registrationRouter)
 router.use('/users',userRouter)
 router.use('/seed',seedRouter)
 

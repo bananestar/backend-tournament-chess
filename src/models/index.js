@@ -13,9 +13,16 @@ db.sequelize = sequelize;
 db.User = require('./user')(sequelize);
 db.Tournament = require('./tournament')(sequelize);
 db.Match = require('./match')(sequelize);
+db.Registration = require('./registration')(sequelize)
 
-db.Tournament.belongsToMany(db.User, { through: 'UserTournament' })
-db.User.belongsToMany(db.Tournament, { through: 'UserTournament' })
+db.Tournament.hasMany(db.Registration,{
+	foreignKey: 'tournamentId',
+	allowNull: false,
+})
+db.User.hasMany(db.Registration,{
+	foreignKey: 'userId',
+	allowNull: false,
+})
 
 db.Tournament.hasMany(db.Match, {
 	foreignKey: 'tournamentId',

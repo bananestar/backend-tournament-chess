@@ -48,9 +48,20 @@ module.exports = (sequelize) => {
 				allowNull: false,
 				defaultValue: 1200,
 			},
-			tournament: {
+			matchWin:{
 				type: DataTypes.INTEGER,
-				allowNull: true,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			matchLoose:{
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			matchDraw:{
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
 			},
 			isAdmin: {
 				type: DataTypes.BOOLEAN,
