@@ -13,7 +13,7 @@ const authController = {
 	 * @param {Response} res
 	 */
 	register: async (req, res) => {
-		const { pseudo, email, birthDate, gender } = req.body;
+		const { pseudo, email, birthDate, gender,elo } = req.body;
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		const user = await db.User.create({
 			pseudo,
@@ -21,6 +21,7 @@ const authController = {
 			password: hashedPassword,
 			birthDate,
 			gender,
+			elo
 		});
 
 		const token = await generateJWT({

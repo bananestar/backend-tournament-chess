@@ -1,7 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 
-const {seedUser, seedTournament, seedMatch, seedDB} = require('./utils/seed-utils')
+const { seedUser, seedTournament, seedMatch, seedDB } = require('./utils/seed-utils');
 const express = require('express');
 const cors = require('cors');
 
@@ -14,7 +14,7 @@ db.sequelize
 	.authenticate()
 	.then(() => console.log('Connection DB => ok'))
 	.catch((errors) => console.log('Connection DB => NOT OK!!', errors));
-// db.sequelize.sync({alter:true,force:true})
+// db.sequelize.sync({ alter: true, force: true });
 // db.sequelize.sync();
 
 app.use(cors());
@@ -28,12 +28,10 @@ app.listen(PORT, () => {
 	console.warn(`Listening => ${URL}${PORT}`);
 });
 
-
 // seedUser(20)
-// seedTournament(20)
+// seedTournament()
 // seedMatch(1)
 // seedDB()
-
 
 // const {SendNewUser} = require('./mails/sendEmail');
 // SendNewUser('s.vanderlinden13@gmail.com','Bananestar')

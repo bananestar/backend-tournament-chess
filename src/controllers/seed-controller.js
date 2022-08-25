@@ -35,9 +35,8 @@ const seedController = {
 	 * @param {Response} res
 	 */
 	AddTournament: async (req, res) => {
-		const countUser = await db.User.count();
 		const cityName = faker.address.cityName();
-		const PlayersMax = countUser;
+		const PlayersMax = Math.floor(Math.random() * (32 - 2)) + 2;;
 		const PlayersMin = Math.floor(Math.random() * (PlayersMax - 2)) + 2;
 		const EloMax = Math.floor(Math.random() * 3000);
 		const EloMin = Math.floor(Math.random() * EloMax);
@@ -60,6 +59,7 @@ const seedController = {
 			createdAt: date,
 			updatedAt: date,
 		};
+		
 		return await db.Tournament.create(data);
 	},
 
