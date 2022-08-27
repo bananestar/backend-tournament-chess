@@ -5,6 +5,51 @@ const bcrypt = require('bcrypt');
 
 const seedController = {
 	/**
+	 * 
+	 * @param {Request} req 
+	 * @param {Response} res 
+	 */
+	AddAdmin: async (req, res) => {
+		const hashedPassword = await bcrypt.hash('test1234=', 10);
+		const gender = 'MALE'
+		const isAdmin = true
+
+		const Bananestar = {
+			pseudo: 'Bananestar',
+			email: 'bananacorptest@outlook.com',
+			password: hashedPassword,
+			birthDate: '1999-01-07',
+			isAdmin: isAdmin,
+			gender: gender,
+			elo: 3000,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		}
+
+		const CheckMate = {
+			pseudo: 'CheckMate',
+			email: 'test@outlook.com',
+			password: hashedPassword,
+			birthDate: '1999-01-07',
+			gender: gender,
+			isAdmin: isAdmin,
+			elo: 3000,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		}
+			;
+
+		const message = []
+
+		await db.User.create(CheckMate)
+		await db.User.create(Bananestar)
+		
+		message.push('Admin CheckMate')
+		message.push('Admin Bananestar')
+
+		return message;
+	},
+	/**
 	 *
 	 * @param {Request} req
 	 * @param {Response} res
@@ -59,7 +104,7 @@ const seedController = {
 			createdAt: date,
 			updatedAt: date,
 		};
-		
+
 		return await db.Tournament.create(data);
 	},
 
@@ -102,7 +147,7 @@ const seedController = {
 		if (playerWhiteId === playerBlackId) {
 			if (playerBlackId === countUser) {
 				playerBlackId--;
-			}else playerBlackId++
+			} else playerBlackId++
 		}
 
 		const data = {

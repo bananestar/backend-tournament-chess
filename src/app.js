@@ -14,7 +14,7 @@ db.sequelize
 	.authenticate()
 	.then(() => console.log('Connection DB => ok'))
 	.catch((errors) => console.log('Connection DB => NOT OK!!', errors));
-// db.sequelize.sync({ alter: true, force: true });
+db.sequelize.sync({ alter: true, force: true });
 // db.sequelize.sync();
 
 app.use(cors());
@@ -31,7 +31,7 @@ app.listen(PORT, () => {
 // seedUser(20)
 // seedTournament()
 // seedMatch(1)
-// seedDB()
+seedDB()
 
 // const {SendNewUser} = require('./mails/sendEmail');
 // SendNewUser('s.vanderlinden13@gmail.com','Bananestar')
