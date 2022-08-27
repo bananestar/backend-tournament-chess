@@ -17,25 +17,30 @@ db.Registration = require('./registration')(sequelize)
 
 db.Tournament.hasMany(db.Registration,{
 	foreignKey: 'tournamentId',
+	onDelete: 'CASCADE',
 	allowNull: false,
 })
 db.User.hasMany(db.Registration,{
 	foreignKey: 'userId',
+	onDelete: 'CASCADE',
 	allowNull: false,
 })
 
 db.Tournament.hasMany(db.Match, {
 	foreignKey: 'tournamentId',
+	onDelete: 'CASCADE',
 	allowNull: false,
 });
 
 db.User.hasMany(db.Match, {
 	foreignKey: 'playerWhiteId',
+	onDelete: 'CASCADE',
 	allowNull: false,
 });
 
 db.User.hasMany(db.Match, {
 	foreignKey: 'playerBlackId',
+	onDelete: 'CASCADE',
 	allowNull: false,
 });
 
