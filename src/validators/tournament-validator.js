@@ -11,9 +11,9 @@ const tournamentValidator = yup.object().shape({
 		,
 	PlayersMax: yup
 		.number()
+		.min(2)
 		.max(32)
 		.required()
-		.moreThan(yup.ref('playersMin'), 'Max must be higher than player min')
 		,
 	EloMin: yup
 		.number()

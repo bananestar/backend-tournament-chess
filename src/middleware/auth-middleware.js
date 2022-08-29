@@ -2,7 +2,7 @@ const { Op } = require('sequelize');
 const db = require('../models');
 const { decodeJWT } = require('../utils/jwt-utils');
 
-const authJWT = (options = { adminRight: false }) => {
+const authJWT = (options = { adminRight: true }) => {
 	return async (req, res, next) => {
 		const authHeader = req.headers['authorization'];
 		const token = authHeader && authHeader.split(' ')[1];

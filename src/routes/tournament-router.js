@@ -13,7 +13,7 @@ tournamentRouter
 tournamentRouter
 	.route('/:id')
 	.get(tournamentController.get)
-	.put(authJWT(), bodyValidation(tournamentValidator), tournamentController.update)
+	.put(authJWT(),bodyValidation(tournamentValidator), tournamentController.update)
 	.delete(authJWT(), tournamentController.delete);
 
 module.exports = tournamentRouter;
