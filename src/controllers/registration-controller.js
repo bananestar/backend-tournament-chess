@@ -60,7 +60,7 @@ const registrationController = {
 	 * @param {Response} res
 	 */
 	add: async (req, res) => {
-		const data = req.validatedData;
+		const data = req.body;
 		const newMatch = await db.Registration.create(data);
 		return res.status(201).json(new SuccessObjectResponse(newMatch, 201));
 	},
