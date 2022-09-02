@@ -14,7 +14,7 @@ matchRouter
 	.route('/:id')
 	.get(matchController.get)
 	.put(authJWT(), bodyValidation(matchValidator), matchController.update)
-	.delete(authJWT(), bodyValidation(matchValidator), matchController.delete);
+	.delete(authJWT(), matchController.delete);
 
 matchRouter.route('/bytournamentid/:id').get(matchController.getbyTournament);
 
